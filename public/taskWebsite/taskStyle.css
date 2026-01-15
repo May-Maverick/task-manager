@@ -289,7 +289,19 @@ input:focus {
     align-items: center;
     flex-wrap: wrap;
     transform-origin: center;
+    animation: load 400ms ease-in 0 1;
    
+}
+
+@keyframes load {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    } to {
+        transform: scale(1);
+        opacity: 1;
+    }
+    
 }
 
 
