@@ -292,16 +292,6 @@ input:focus {
    
 }
 
-@keyframes load {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
 
 .tasks-container .taskTile:hover {
     box-shadow: 0 0 0px 0px #232b2c64;
