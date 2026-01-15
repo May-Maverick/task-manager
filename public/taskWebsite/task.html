@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TaskMaster</title>
+        <link rel="stylesheet" href="taskStyle.css">
+        <link rel="icon" href="logo.png">
+    </head>
+    <body>
+   <!--    <div class="site-name">
+            <div class="logo-container">
+                <img src="logo.png" alt="logo">
+            </div>
+            <div class="name-container">
+                <p id="name"><strong>TaskMaster</strong></p>
+            </div>
+        </div> -->
+        <div class="main">
+            <div class="taskInfo">
+                <form type="" id="form">
+                    <p id="name"><strong>Task Manager</strong></p>
+                    <div class="input-container">
+                        <label for="title"><strong>Title</strong></label>
+                        <input type="text" class="inputFields" id="title" placeholder="Title.."required>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="subject"><strong>Subject</strong></label>
+                        <input type="text" class="inputFields" id="subject" placeholder="Subject..." required>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="time"><strong>Estimated Time</strong></label>
+                        <input type="text" class="inputFields" id="time" required>
+                    </div>
+
+                    <div class="formButtons">
+                        <button type="reset" id="reset" class="buttons"><strong>Reset</strong></button>
+                        <button type="submit" id="submit" class="buttons"><strong>Add task</strong></button>
+                    </div>
+                </form>
+            </div>
+            <div class="incompleteTasks">
+
+                <div class="task-listing">
+
+                    <div class="topnav">
+                        <p><strong>Tasks</strong></p>
+                    </div>
+
+                    <div class="tasks-container">
+                    
+                    </div>
+                </div>
+
+                <div class="taskDetails">
+                        <div class="task-title-container">
+                            <p id="task-title">Title</p>
+                        </div>
+                        <div class="task-subject-container">
+                            <p id="task-subject">Subject</p>
+                        </div>
+                        <div class="task-time-container">
+                            <p id="task-time">2hrs</p>
+                        </div>
+
+                        <div class="task-buttons">
+                            <button id="task-delete">Delete</button>
+                            <button id="task-edit">Edit</button>
+                            <button id="task-begin">Begin</button>
+                        </div>
+
+
+                </div>
+                
+                <div class="task-analysis">
+                
+            </div>
+            </div>
+            
+        </div>
+        <script src="taskScript.js"></script>
+    </body>
+</html>

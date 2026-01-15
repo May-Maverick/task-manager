@@ -1,0 +1,360 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #090912;
+    height : 100vh;
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+button, label, input {
+    font: inherit;
+}
+
+p,h1,h2,h3 {
+    padding: 0px;
+    margin: 0px;
+}
+
+.site-name {
+    height: 10%;
+    width: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+.site-name .logo-container img{
+    height: 100%;
+    width: 100%;
+}
+.site-name .logo-container {
+    width: 14%;
+    height: 100%;
+    border-radius: 13px;
+    overflow: hidden;
+    box-shadow: -10px 0 12px -5px #010409;
+}
+
+.site-name .name-contaier{
+    width: fit-content;
+}
+
+.site-name .name-container p{
+    font-size: 45px;
+    font-family: serif;
+}
+
+.main {
+    width: 80%;
+    height: 60%;
+    background-color: #181a27ec;
+    border-radius: 50px;
+    border-style: outset;
+    border-color: #181a2747;
+    box-shadow: 0 0 17px 19px rgba(0,0,0,0.5);
+    display: flex;
+    overflow: hidden;
+
+}
+
+.taskInfo {
+    flex: 4;
+    padding: 15px;
+    overflow: hidden;
+    transition: opacity 200ms ease, flex 500ms ease;
+}
+.taskInfo.hidden {
+    opacity: 0;
+    flex: 0;
+    padding: 0;
+    pointer-events: none;
+}
+
+
+#form {
+    width: 100%;
+    height: 100%;
+    color: inherit;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 17px;
+}
+#name {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 40px;
+    color: beige;
+
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    height: 15%;
+    gap: 5px;
+}
+
+.input-container label {
+    font-size: large;
+    color: white;
+}
+.formButtons {
+    align-self: self-end;
+    display: flex;
+    gap: 15px;
+    
+}
+.buttons {
+    width: fit-content;
+    padding: 15px 30px;
+    border-radius: 10px;
+    color: beige;
+
+}
+
+#submit {
+    border: none;
+    background: linear-gradient(to right,#691ceb, #221648);
+    box-shadow: 0 0 15px 1px #691ceb;
+    transition: box-shadow 400ms ease;
+}
+
+#submit:focus, #submit:hover {
+    outline: #691ceb;
+    box-shadow: 0 0 10px 6px #691ceb;
+}
+
+#reset{
+    border: #010409;
+    background-color: #010409;
+    transition: box-shadow 400ms ease;
+}
+
+#reset:focus, #reset:hover {
+    outline: #010409;
+    box-shadow: 0 0 15px 3px #010409;
+}
+
+.incompleteTasks {
+    flex : 3;
+    background: linear-gradient(to right,#691ceb, #221648);
+    border-radius: 50px;
+    box-shadow: -12px 0 6px -4px rgba(0,0,0,0.25);
+    transition: flex 500ms ease;
+    overflow: hidden;
+    padding: 10px;
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.incompleteTasks.expanded {
+    flex: 1;
+    display: flex;
+    padding: 0;
+    flex-direction: row;
+    align-items: center;
+
+
+}
+
+.taskDetails {
+    flex: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 300ms ease-in;
+}
+
+.taskDetails.shown {
+    width: 100%;
+    flex: 3;
+    opacity: 1;
+    display: flex;
+    pointer-events: all;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
+
+}
+
+.task-title-container, .task-subject-container, .task-time-container {
+    border-bottom-style: solid;
+    border-color: grey;
+    color: rgba(255, 255, 255, 0.731);
+    width: 90%;
+    height: 17%;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    
+}
+.task-buttons {
+    height: 12%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.task-buttons button {
+    flex: 1;
+    border-radius: 9px;
+}
+
+input {
+    background: linear-gradient(to right,#691ceb, #221648);
+    border-radius: 10px;
+    color: white;
+    flex: 1;
+    box-shadow: 0 0 12px 3px #000000b6;
+    transition: box-shadow 200ms ease;
+    border: none;
+}
+
+input:focus {
+    outline: #691ceb;
+    border-color: #691ceb;
+    box-shadow: 0 0 10px 4px #691ceb;
+}
+
+.incompleteTasks .topnav {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.incompleteTasks .topnav p {
+    font: inherit;
+    font-size: x-large;
+}
+
+.incompleteTasks .tasks-container {
+    flex: 5;
+    width: 100%;
+    padding: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    display: flex;
+    flex-direction: column;
+    gap:12px;
+    
+    
+}
+
+
+.task-listing {
+    width: 100%;
+    height: 90%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: opacity 300ms ease-out, flex 300ms ease-out;
+}
+
+.task-listing.hidden {
+    opacity: 0;
+    flex: 0;
+    padding: 0;
+    pointer-events: none;
+}
+
+.tasks-container .taskTile {
+    width: 90%;
+    height: 20%;
+    padding: 5px;
+    box-shadow: 0 0 12px 6px #000000c4;
+    background-color: #232b2c70;
+    color: beige;
+    border-radius: 15px;
+    border-style: outset;
+    border-color: #232b2c70;
+    border-width: 2px;
+
+    
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    transform-origin: center;
+   
+}
+
+@keyframes load {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.tasks-container .taskTile:hover {
+    box-shadow: 0 0 0px 0px #232b2c64;
+    transform: scale(1.05);
+
+    transition: box-shadow 200ms ease-in, transform 200ms ease-in
+}
+
+
+
+.title-container {
+    flex: 3;
+    overflow-y: hidden;
+    overflow-x: auto;
+}
+
+.subject-container {
+    flex: 1;
+    width: fit-content;
+    border-radius: 8px;
+    padding: 5px;
+    border-style: solid;
+    border-color: #d40000;
+    color: #d40000;
+    background-color: #df5858;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.time-container {
+    flex: 2;
+    color: grey;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.task-analysis {
+    flex: 0;
+    pointer-events: none;
+    transition: flex 500ms ease 200ms;
+}
+.task-analysis.shown {
+    flex : 4;
+    height: 100%;
+    pointer-events: all;
+    background: linear-gradient(to right,#260a56, #130a30);
+    border-radius: 50px;
+    box-shadow: -12px 0 6px -4px rgba(0,0,0,0.25);
+    
+}
+
+
+/*different className fields for different subjects e.g .subject-container.math*/
+

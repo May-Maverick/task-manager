@@ -1,0 +1,15 @@
+<div class="taskTile">
+    
+    <div class="title-container">
+        <p><strong>Derivatives</strong></p>
+    </div>
+
+    <div class="subject-container">
+        <p>Subject</p>
+    </div>
+
+    <div class="time-container">
+        <p>30min</p>
+    </div>
+
+</div>
