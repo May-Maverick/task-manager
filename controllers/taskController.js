@@ -30,3 +30,19 @@ export const deleteTask = async (req, res) => {
 
     res.json(response);
 }
+
+export const taskEdit = async (req, res) => {
+        const {id} = req.params;
+        const filter = {_id : id};
+        const replacement = req.body;
+        const option = {new: true};
+        const newTaskDoc = Task.findOneAndReplace(filter, replacement, option);
+        if(!newTask) {
+                const err = new Error("Task document not found when editing task in databse");
+                err.status(404);
+                throw err;
+        }
+
+        res.json(newTaskDoc);
+
+}

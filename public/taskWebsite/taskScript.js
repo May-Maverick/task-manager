@@ -13,6 +13,7 @@ const task_subject = document.querySelector("#task-subject");
 const task_time = document.querySelector("#task-time");
 const task_delete = document.querySelector("#task-delete");
 const task_edit = document.querySelector("#task-edit");
+const task_details = document.querySelector(".task-details");
 let tasksListed = [];
 let viewTask;
 
@@ -54,20 +55,24 @@ task_delete.addEventListener("click", async () => {
 
 task_edit.addEventListener("click", async () => {
 
-    
+    task_details.classList.add("edit");
+    task_edit.innerText = "Save";
+    task_edit.addEventListener("click", async() => {
+        viewTask.title = task_title.value;
+        viewTask.subject = task_subject.value;
+        viewTask.time = task_time.value;
 
-    viewTask.title = task_title.value;
-    viewTask.subject = task_subject.value;
-    viewTask.time = task_time.value;
+        viewTask = await taskEdit(viewTask);
+        tasksListed = tasksListed.filter(element => element._id !== viewTask._id);
+        tasksListed.push(viewTask);
 
-    viewTask = await taskEdit(viewTask);
-    tasksListed = tasksListed.filter(element => element._id !== viewTask._id);
-    tasksListed.push(viewTask);
-
-
+    });
+    task_details.classList.remove("edit");
+    task_edit.innerText = "Edit";
 
 
-})
+
+});
 
 function createTask(title, subject, time) {
     const task = {
@@ -229,7 +234,14 @@ const  taskEdit = async (task) => {
 
     try{
         const url = `task/${task._id}`;
-        const response = await fetch(url, {method: "PUT"});
+        const response = await fetch(url, {
+            method: "PUT",
+            headers: {
+                "Content-type": "application/json"
+            },
+            body: JSON.stringify(task)
+        });
+
         if(!response.ok){
             throw new Error("Edit task PUt request failed");
         }
@@ -244,3 +256,4 @@ const  taskEdit = async (task) => {
         alert("Task was not modified");
     }
 }
+

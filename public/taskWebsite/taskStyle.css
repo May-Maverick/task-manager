@@ -188,6 +188,14 @@ p,h1,h2,h3 {
 
 }
 
+.task-details {
+    pointer-events: none;
+}
+
+.task-details.edit {
+    pointer-events: all;
+}
+
 .task-title-container, .task-subject-container, .task-time-container {
     border-bottom-style: solid;
     border-color: grey;
