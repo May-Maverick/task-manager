@@ -11,7 +11,9 @@ export const sendTask = async (req, res) => {
         const taskDoc = await Task.create(newTask);
 
         if(!taskDoc){
-                return res.status(500).json({message: "Task not creation failed"});
+                const err = new Error("Task creation failed");
+                err.status(500);
+                throw err;
         }
         res.json(taskDoc);
 };
@@ -21,7 +23,9 @@ export const deleteTask = async (req, res) => {
     const response = await Task.findByIdAndDelete(id);
    
     if(!response) {
-       return res.status(404).json({message: "Task not found in deletion process"});
+       const err = new Error("Task not found in deletion process");
+       err.status(404);
+       throw err;
     }
 
     res.json(response);
