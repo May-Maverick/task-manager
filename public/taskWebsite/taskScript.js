@@ -12,6 +12,7 @@ const task_title = document.querySelector("#task-title");
 const task_subject = document.querySelector("#task-subject");
 const task_time = document.querySelector("#task-time");
 const task_delete = document.querySelector("#task-delete");
+const task_edit = document.querySelector("#task-edit");
 let tasksListed = [];
 let viewTask;
 
@@ -50,6 +51,23 @@ task_delete.addEventListener("click", async () => {
 
     
 });
+
+task_edit.addEventListener("click", async () => {
+
+    
+
+    viewTask.title = task_title.value;
+    viewTask.subject = task_subject.value;
+    viewTask.time = task_time.value;
+
+    viewTask = await taskEdit(viewTask);
+    tasksListed = tasksListed.filter(element => element._id !== viewTask._id);
+    tasksListed.push(viewTask);
+
+
+
+
+})
 
 function createTask(title, subject, time) {
     const task = {
@@ -205,4 +223,24 @@ const taskDelete = async (task) => {
 
     }
 
+}
+
+const  taskEdit = async (task) => {
+
+    try{
+        const url = `task/${task._id}`;
+        const response = await fetch(url, {method: "PUT"});
+        if(!response.ok){
+            throw new Error("Edit task PUt request failed");
+        }
+        const data = await response.json();
+        if(data !== task){
+            throw new Error("Task was not modified");
+            
+        }
+        return data;
+    } catch(error){
+        console.error("Task edit failed: ", error.message);
+        alert("Task was not modified");
+    }
 }
