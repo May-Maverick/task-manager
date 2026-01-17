@@ -12,7 +12,7 @@ export const sendTask = async (req, res) => {
 
         if(!taskDoc){
                 const err = new Error("Task creation failed");
-                err.status(500);
+                err.status = 500;
                 throw err;
         }
         res.json(taskDoc);
@@ -24,7 +24,7 @@ export const deleteTask = async (req, res) => {
    
     if(!response) {
        const err = new Error("Task not found in deletion process");
-       err.status(404);
+       err.status = 404;
        throw err;
     }
 
@@ -33,13 +33,11 @@ export const deleteTask = async (req, res) => {
 
 export const taskEdit = async (req, res) => {
         const {id} = req.params;
-        const filter = {_id : id};
-        const replacement = req.body;
-        const option = {new: true};
-        const newTaskDoc = Task.findOneAndReplace(filter, replacement, option);
-        if(!newTask) {
+        const option = { new: true, runValidators: true };
+        const newTaskDoc = await Task.findByIdAndUpdate(id, req.body, option);
+        if(!newTaskDoc) {
                 const err = new Error("Task document not found when editing task in databse");
-                err.status(404);
+                err.status = 404;
                 throw err;
         }
 

@@ -1,3 +1,5 @@
+
+
 const form = document.querySelector("#form");
 const title_input = document.querySelector("#title");
 const subject_input = document.querySelector("#subject");
@@ -16,6 +18,8 @@ const task_edit = document.querySelector("#task-edit");
 const task_details = document.querySelector(".task-details");
 let tasksListed = [];
 let viewTask;
+let isEditing = false;
+
 
 (async () => {
     const tasks = await getTasks();
@@ -55,21 +59,25 @@ task_delete.addEventListener("click", async () => {
 
 task_edit.addEventListener("click", async () => {
 
-    task_details.classList.add("edit");
-    task_edit.innerText = "Save";
-    task_edit.addEventListener("click", async() => {
-        viewTask.title = task_title.value;
-        viewTask.subject = task_subject.value;
-        viewTask.time = task_time.value;
+    if (!isEditing){
+        task_details.classList.add("edit");
+        task_edit.innerText = "Save";
+        isEditing = true;
+        return;
+    }
+
+    if (isEditing) {
+        viewTask.title = task_title.innerText;
+        viewTask.subject = task_subject.innerText;
+        viewTask.time = task_time.innerText;
 
         viewTask = await taskEdit(viewTask);
         tasksListed = tasksListed.filter(element => element._id !== viewTask._id);
         tasksListed.push(viewTask);
-
-    });
-    task_details.classList.remove("edit");
-    task_edit.innerText = "Edit";
-
+         task_details.classList.remove("edit");
+        task_edit.innerText = "Edit";
+        isEditing = false;
+    }
 
 
 });
@@ -237,19 +245,15 @@ const  taskEdit = async (task) => {
         const response = await fetch(url, {
             method: "PUT",
             headers: {
-                "Content-type": "application/json"
+                "Content-type": "application/json",
             },
-            body: JSON.stringify(task)
+            body: JSON.stringify(task),
         });
 
         if(!response.ok){
-            throw new Error("Edit task PUt request failed");
+            throw new Error("Edit task PUT request failed");
         }
         const data = await response.json();
-        if(data !== task){
-            throw new Error("Task was not modified");
-            
-        }
         return data;
     } catch(error){
         console.error("Task edit failed: ", error.message);
