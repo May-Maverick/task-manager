@@ -15,6 +15,7 @@ const task_subject = document.querySelector("#task-subject");
 const task_time = document.querySelector("#task-time");
 const task_delete = document.querySelector("#task-delete");
 const task_edit = document.querySelector("#task-edit");
+const task_begin = document.querySelector("#task-begin");
 const task_details = document.querySelector(".task-details");
 let tasksListed = [];
 let viewTask;
@@ -81,6 +82,11 @@ task_edit.addEventListener("click", async () => {
 
 
 });
+
+task_begin.addEventListener("click", (e) => {
+
+    thirdVeiw();
+})
 
 function createTask(title, subject, time) {
     const task = {
@@ -203,10 +209,14 @@ const firstView = () => {
     
 };
 
+const thirdVeiw = () => {
+    taskDetails.classList.remove("shown");
+}
 
 
-function tileClick(tile, task){
-    tile.addEventListener("click", () => {
+
+const tileClick = (tile, task) => {
+        tile.addEventListener("click", () => {
         secondView();
 
         viewTask = task;

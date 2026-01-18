@@ -170,8 +170,11 @@ p,h1,h2,h3 {
 .taskDetails {
     flex: 0;
     opacity: 0;
+    padding: 0;
+    min-width: 0px;
+    overflow: hidden;
     pointer-events: none;
-    transition: opacity 300ms ease-in;
+    transition: flex 500ms ease, opacity 300ms ease;
 }
 
 .taskDetails.shown {
@@ -186,7 +189,10 @@ p,h1,h2,h3 {
     gap: 20px;
     padding: 40px;
 
+
 }
+
+
 
 .task-details {
     pointer-events: none;
@@ -209,14 +215,16 @@ p,h1,h2,h3 {
     
 }
 .task-buttons {
-    height: 12%;
+    height: 60%;
     display: flex;
     justify-content: space-between;
+    gap: 10px;
 }
 
 .task-buttons button {
     flex: 1;
     border-radius: 9px;
+    padding: 10px;
 }
 
 input {
@@ -353,7 +361,7 @@ input:focus {
 .task-analysis {
     flex: 0;
     pointer-events: none;
-    transition: flex 500ms ease 200ms;
+    transition: flex 500ms ease;
 }
 .task-analysis.shown {
     flex : 4;
@@ -362,8 +370,9 @@ input:focus {
     background: linear-gradient(to right,#260a56, #130a30);
     border-radius: 50px;
     box-shadow: -12px 0 6px -4px rgba(0,0,0,0.25);
-    
 }
+
+
 
 
 /*different className fields for different subjects e.g .subject-container.math*/
