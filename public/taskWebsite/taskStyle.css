@@ -12,7 +12,9 @@ body {
     align-items: center;
     
 }
-
+.hidden {
+    display: none;
+}
 button, label, input {
     font: inherit;
 }
@@ -64,15 +66,20 @@ p,h1,h2,h3 {
 
 }
 
-.taskInfo {
-    flex: 4;
+.taskInfo  {
+    width: 55%;
+    opacity: 1;
     padding: 15px;
     overflow: hidden;
+    pointer-events: all;
     transition: opacity 200ms ease, flex 500ms ease;
 }
+
 .taskInfo.hidden {
     opacity: 0;
-    flex: 0;
+    flex: 0 0 0;
+    overflow: hidden;
+    min-width: 0px;
     padding: 0;
     pointer-events: none;
 }
@@ -144,21 +151,21 @@ p,h1,h2,h3 {
 }
 
 .incompleteTasks {
-    flex : 3;
+    width : 45%;
     background: linear-gradient(to right,#691ceb, #221648);
     border-radius: 50px;
     box-shadow: -12px 0 6px -4px rgba(0,0,0,0.25);
-    transition: flex 500ms ease;
     overflow: hidden;
     padding: 10px;
     display: flex;
     overflow: hidden;
     flex-direction: column;
     align-items: center;
+    transition: width 500ms ease;
     
 }
 .incompleteTasks.expanded {
-    flex: 1;
+    width: 100%;
     display: flex;
     padding: 0;
     flex-direction: row;
@@ -168,13 +175,14 @@ p,h1,h2,h3 {
 }
 
 .taskDetails {
-    flex: 0;
+    flex: 0 0 0;
     opacity: 0;
     padding: 0;
     min-width: 0px;
+    min-height: 0;
     overflow: hidden;
     pointer-events: none;
-    transition: flex 500ms ease, opacity 300ms ease;
+    transition: flex 500ms ease, opacity 500ms ease;
 }
 
 .taskDetails.shown {
@@ -274,6 +282,7 @@ input:focus {
 .task-listing {
     width: 100%;
     height: 90%;
+    opacity: 1;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -283,7 +292,8 @@ input:focus {
 
 .task-listing.hidden {
     opacity: 0;
-    flex: 0;
+    flex: 0 0 0;
+    min-width: 0px;
     padding: 0;
     pointer-events: none;
 }
@@ -358,21 +368,84 @@ input:focus {
     justify-content: center;
     align-items: center;
 }
-.task-analysis {
-    flex: 0;
+.task-analysis{
+    flex: 0 0 0;
     pointer-events: none;
-    transition: flex 500ms ease;
+    overflow: hidden;
+    min-width: 0;
+    min-height: 0;
+    transition: flex 500ms ease 100ms;
 }
 .task-analysis.shown {
     flex : 4;
     height: 100%;
-    pointer-events: all;
+    pointer-events: none; /* for now until graphs are addded*/
     background: linear-gradient(to right,#260a56, #130a30);
     border-radius: 50px;
+    display: flex;
     box-shadow: -12px 0 6px -4px rgba(0,0,0,0.25);
 }
 
+.Focus-Session {
+    flex: 0 0 0;
+    pointer-events: none;
+    padding: 0px;
+    opacity: 0;
+    overflow: hidden;
+    min-width: 0px;
+    transition: opacity 500ms ease;
+}
 
+.Focus-Session.shown {
+    width: 100%;
+    height: 100%;
+    pointer-events: all;
+    flex: 1;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+
+}
+
+.timer-container {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timer-container p{
+    padding: 0px;
+
+    font-family: Orbitron, sans-serif;
+    text-shadow: 0 0 20px #691ceb;
+    
+    font-size: 100px;
+    color: beige;
+
+}
+
+.timer-buttons {
+    width: 30%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px
+}
+
+.timer-buttons button{
+    border-radius: 10px;
+    padding: 10px 0px;
+    flex: 1;
+}
+
+#timer {
+
+}
 
 
 /*different className fields for different subjects e.g .subject-container.math*/

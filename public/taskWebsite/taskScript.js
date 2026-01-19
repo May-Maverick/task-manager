@@ -1,6 +1,5 @@
-
-
 const form = document.querySelector("#form");
+const main = document.querySelector(".main");
 const title_input = document.querySelector("#title");
 const subject_input = document.querySelector("#subject");
 const time_input = document.querySelector("#time");
@@ -17,25 +16,42 @@ const task_delete = document.querySelector("#task-delete");
 const task_edit = document.querySelector("#task-edit");
 const task_begin = document.querySelector("#task-begin");
 const task_details = document.querySelector(".task-details");
+const focus_session = document.querySelector(".Focus-Session");
+const session_start = document.querySelector("#start");
+const timer = document.querySelector("#timer");
+const VIEW = {
+    LIST: "list",
+    DETAIL: "detail",
+    FOCUS: "focus"
+};
+
 let tasksListed = [];
 let viewTask;
 let isEditing = false;
+let inFocus = false;
+let timerInterval = null;
+let startTime;
+let start = false;
+let remainder;
+let duration = 0;
 
 
+
+
+//on window load
 (async () => {
     const tasks = await getTasks();
     tasksListed = tasks;
-    requestAnimationFrame(() => {
-        tasksListed.forEach(element => {
-            displayTaskTile(element);
-        });
-    })
+    tasksListed.forEach(task => {
+    displayTaskTile(task);
+    
+   });
+   setView(VIEW.LIST);
+   
 })();
  
 
-
-
-
+//button eventListeners
 
 form.addEventListener("submit", async (e) => {
 
@@ -50,13 +66,22 @@ form.addEventListener("submit", async (e) => {
 
 });
 
+
+
 task_delete.addEventListener("click", async () => {
 
     await taskDelete(viewTask);
-    firstView();
+    tasks_container.innerHTML = "";
+    tasksListed.forEach(task => {
+        displayTaskTile(task);
+    });
+    setView(VIEW.LIST);
+    
 
     
 });
+
+
 
 task_edit.addEventListener("click", async () => {
 
@@ -75,7 +100,7 @@ task_edit.addEventListener("click", async () => {
         viewTask = await taskEdit(viewTask);
         tasksListed = tasksListed.filter(element => element._id !== viewTask._id);
         tasksListed.push(viewTask);
-         task_details.classList.remove("edit");
+        task_details.classList.remove("edit");
         task_edit.innerText = "Edit";
         isEditing = false;
     }
@@ -83,10 +108,41 @@ task_edit.addEventListener("click", async () => {
 
 });
 
-task_begin.addEventListener("click", (e) => {
 
-    thirdVeiw();
+
+task_begin.addEventListener("click", (e) => {
+    setView(VIEW.FOCUS);
+});
+
+
+
+
+session_start.addEventListener("click", (e) => {
+    if(!start){
+        start = true;
+        setDuration(); 
+        startTime = Date.now();
+        resumptionTime = startTime;
+    }
+
+    if(inFocus){
+        session_start.innerText = "Resume";
+        clearInterval(timerInterval);
+        duration = remainder;
+        resumptionTime = Date.now();
+        inFocus = false;
+
+    } else {
+        session_start.innerText = "Pause";
+        timerInterval = setInterval(countdown, 1000);
+        inFocus = true;
+    }
+
 })
+
+
+
+//function definitions
 
 function createTask(title, subject, time) {
     const task = {
@@ -97,7 +153,8 @@ function createTask(title, subject, time) {
     };
 
     return task;
-}
+};
+
 
 async function sendTask(task) {
     try {
@@ -121,7 +178,8 @@ async function sendTask(task) {
         alert("Failed to save task");
     }
 
-}
+};
+
 
 async function getTasks() {
     try {
@@ -140,7 +198,8 @@ async function getTasks() {
         console.error("Failed to get tasks: ", error.message);
         alert("Tasks retrieval from databse failed");
     }
-}
+};
+
 
 function displayTaskTile(task) {
 
@@ -182,7 +241,8 @@ function displayTaskTile(task) {
 
 };
 
-const secondView = () => {
+
+/*const secondView = () => {
         taskInfo.classList.add("hidden");
         incompleteTasks.classList.add("expanded");
         task_listing.classList.add("hidden");
@@ -192,32 +252,24 @@ const secondView = () => {
 
 const firstView = () => {
 
-            requestAnimationFrame(()=> {
-            tasks_container.innerHTML = "";
-            tasksListed.forEach(task => {
-            displayTaskTile(task);
-            });
-        });
-
         taskInfo.classList.remove("hidden");
         incompleteTasks.classList.remove("expanded");
         task_listing.classList.remove("hidden");
         taskDetails.classList.remove("shown");
-        task_analysis.classList.remove("shown");
-
-       
+        task_analysis.classList.remove("shown");           
     
 };
 
-const thirdVeiw = () => {
+const thirdView = () => {
     taskDetails.classList.remove("shown");
+    focus_session.classList.add('shown');
 }
 
-
+*/
 
 const tileClick = (tile, task) => {
         tile.addEventListener("click", () => {
-        secondView();
+        setView(VIEW.DETAIL);
 
         viewTask = task;
 
@@ -226,7 +278,9 @@ const tileClick = (tile, task) => {
         task_time.innerText = viewTask.time;
 
     })
-}
+};
+
+
 
 const taskDelete = async (task) => {
     try {
@@ -239,6 +293,7 @@ const taskDelete = async (task) => {
         const data = await response.json();
 
         tasksListed = tasksListed.filter(element => element._id !== task._id);
+
         
     } catch(error){
         console.error("Failed to delete task: ", error.message);
@@ -246,7 +301,9 @@ const taskDelete = async (task) => {
 
     }
 
-}
+};
+
+
 
 const  taskEdit = async (task) => {
 
@@ -269,5 +326,85 @@ const  taskEdit = async (task) => {
         console.error("Task edit failed: ", error.message);
         alert("Task was not modified");
     }
-}
+};
+
+const getDurationfromString = (timeString) => {
+     let timeValue = timeString.substring(0, timeString.length-3);
+     if (timeString.includes("min")){
+        return Number(timeValue)*60*1000;
+     } else {
+        return Number(timeValue)*60*60*1000;
+     }
+};
+
+const setDuration = () => {
+    let timeString = viewTask.time;
+    timeString = timeString.trim();
+    const timeArr = timeString.split(" ");
+    if (timeArr.length == 1){
+        duration = getDurationfromString(timeArr[0]);
+    } else {
+        duration = getDurationfromString(timeArr[0]);
+        duration += getDurationfromString(timeArr[1]);
+
+    };
+    
+};
+
+
+
+const countdown = () => {
+    remainder = duration - (Date.now() - resumptionTime);
+
+    if (remainder <= 0){
+        clearInterval(timerInterval);
+        timer.innerText = "00:00:00";
+        return;
+    }
+    let seconds = Math.floor(remainder/1000);
+    let min = Math.floor(seconds/60);
+    let hrs = Math.floor(seconds/3600);
+    let sec = seconds % 60;//Do this for hours
+
+    timer.innerText = `${hrs.toString().padStart(2,"0")}:${min.toString().padStart(2,"0")}:${sec.toString().padStart(2,"0")}`;
+
+
+};
+
+
+
+const setView = (view) => {
+
+        
+        switch(view) {
+            case VIEW.LIST:
+
+                //By default VIEW.LIST is displayed only way to access it intentionally is from other views, in which case set everyhting to default
+                taskInfo.classList.remove("hidden");
+                incompleteTasks.classList.remove("expanded");
+                task_listing.classList.remove("hidden");
+                taskDetails.classList.remove("shown");
+                task_analysis.classList.remove("shown");
+                focus_session.classList.remove("shown");
+                break;
+
+            case VIEW.DETAIL:
+                
+                taskInfo.classList.add("hidden");
+                incompleteTasks.classList.add("expanded");
+                task_listing.classList.add("hidden");
+                taskDetails.classList.add("shown");
+                task_analysis.classList.add("shown");
+
+                break;
+            
+            case VIEW.FOCUS:
+
+                //Focus only accessed by first going to detail
+                taskDetails.classList.remove("shown");
+                focus_session.classList.add("shown");
+
+                break;
+        }
+};
 
